@@ -21,7 +21,7 @@
 
 @interface TWTRWebViewController ()
 
-@property (nonatomic, readonly) UIWebView *webView;
+@property (nonatomic, readonly) WKWebView *webView;
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType;
 

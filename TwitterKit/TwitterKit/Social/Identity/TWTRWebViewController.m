@@ -20,7 +20,7 @@
 
 @interface TWTRWebViewController () <UIWebViewDelegate>
 
-@property (nonatomic, strong) UIWebView *webView;
+@property (nonatomic, strong) WKWebView *webView;
 @property (nonatomic, assign) BOOL showCancelButton;
 @property (nonatomic, copy) TWTRWebViewControllerCancelCompletion cancelCompletion;
 
@@ -65,10 +65,31 @@
 
 - (void)loadView
 {
-    [self setWebView:[[UIWebView alloc] init]];
-    [[self webView] setScalesPageToFit:YES];
-    [[self webView] setDelegate:self];
+    [self setWebView:[[WKWebView alloc] init]];
+    // TODO: need an equivalent replacement.
+//    [[self webView] setScalesPageToFit:YES];
+//    [[self webView] setDelegate:self];
+    [[self webView] setNavigationDelegate:self];
     [self setView:[self webView]];
+}
+
+#pragma mark - WKWebview delegate
+
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    // TODO: need an equivalent replacement.
+//    if (navigationAction.navigationType == UIWebViewNavigationTypeLinkClicked) {
+//
+//    }
+//    NSString *url = [navigationAction.request.URL query];
+//
+//    decisionHandler(WKNavigationActionPolicyAllow);
+}
+
+- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
+    if (self.errorHandler) {
+        self.errorHandler(error);
+        self.errorHandler = nil;
+    }
 }
 
 #pragma mark - UIWebview delegate
