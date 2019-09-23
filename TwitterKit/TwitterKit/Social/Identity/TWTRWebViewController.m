@@ -18,7 +18,7 @@
 #import "TWTRWebViewController.h"
 #import <TwitterCore/TWTRAuthenticationConstants.h>
 
-@interface TWTRWebViewController () <UIWebViewDelegate>
+@interface TWTRWebViewController () <WKNavigationDelegate>
 
 @property (nonatomic, strong) WKWebView *webView;
 @property (nonatomic, assign) BOOL showCancelButton;
@@ -27,6 +27,31 @@
 @end
 
 @implementation TWTRWebViewController
+
+// Conversion from UIWebViewNavigationType to WKNavigationType
++ (UIWebViewNavigationType)_enumHelperForNavigationType:(WKNavigationType)wkNavigationType {
+    switch (wkNavigationType) {
+        case WKNavigationTypeLinkActivated:
+            return UIWebViewNavigationTypeLinkClicked;
+            break;
+        case WKNavigationTypeFormSubmitted:
+            return UIWebViewNavigationTypeFormSubmitted;
+            break;
+        case WKNavigationTypeBackForward:
+            return UIWebViewNavigationTypeBackForward;
+            break;
+        case WKNavigationTypeReload:
+            return UIWebViewNavigationTypeReload;
+            break;
+        case WKNavigationTypeFormResubmitted:
+            return UIWebViewNavigationTypeFormResubmitted;
+            break;
+        case WKNavigationTypeOther:
+        default:
+            return UIWebViewNavigationTypeOther;
+            break;
+    }
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -76,13 +101,22 @@
 #pragma mark - WKWebview delegate
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
-    // TODO: need an equivalent replacement.
-//    if (navigationAction.navigationType == UIWebViewNavigationTypeLinkClicked) {
-//
-//    }
-//    NSString *url = [navigationAction.request.URL query];
-//
-//    decisionHandler(WKNavigationActionPolicyAllow);
+    NSURLRequest* request = navigationAction.request;
+    if (![self whitelistedDomain:request]) {
+        // Open in Safari if request is not whitelisted
+        NSLog(@"Opening link in Safari browser, as the host is not whitelisted: %@", request.URL);
+        [[UIApplication sharedApplication] openURL:request.URL];
+        decisionHandler(WKNavigationActionPolicyCancel);
+        return;
+    }
+    WKNavigationActionPolicy decision = WKNavigationActionPolicyAllow;
+    if ([self shouldStartLoadWithRequest]) {
+        if (![self shouldStartLoadWithRequest](self, request, [TWTRWebViewController _enumHelperForNavigationType:navigationAction.navigationType])) {
+            decision = WKNavigationActionPolicyCancel;
+        };
+    }
+
+    decisionHandler(decision);
 }
 
 - (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
@@ -92,6 +126,7 @@
     }
 }
 
+/*
 #pragma mark - UIWebview delegate
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
@@ -115,6 +150,7 @@
         self.errorHandler = nil;
     }
 }
+*/
 
 #pragma mark - Internal methods
 
