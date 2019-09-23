@@ -90,11 +90,7 @@
 
 - (void)loadView
 {
-    [self setWebView:[[WKWebView alloc] init]];
-    // TODO: need an equivalent replacement.
-//    [[self webView] setScalesPageToFit:YES];
-//    [[self webView] setDelegate:self];
-    [[self webView] setNavigationDelegate:self];
+    [self initWebView];
     [self setView:[self webView]];
 }
 
@@ -126,32 +122,6 @@
     }
 }
 
-/*
-#pragma mark - UIWebview delegate
-
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
-{
-    if (![self whitelistedDomain:request]) {
-        // Open in Safari if request is not whitelisted
-        NSLog(@"Opening link in Safari browser, as the host is not whitelisted: %@", request.URL);
-        [[UIApplication sharedApplication] openURL:request.URL];
-        return NO;
-    }
-    if ([self shouldStartLoadWithRequest]) {
-        return [self shouldStartLoadWithRequest](self, request, navigationType);
-    }
-    return YES;
-}
-
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
-{
-    if (self.errorHandler) {
-        self.errorHandler(error);
-        self.errorHandler = nil;
-    }
-}
-*/
-
 #pragma mark - Internal methods
 
 - (BOOL)whitelistedDomain:(NSURLRequest *)request
@@ -177,4 +147,21 @@
     [self setCancelCompletion:cancelCompletion];
 }
 
+- (void)initWebView {
+    // From: https://stackoverflow.com/questions/26295277/wkwebview-equivalent-for-uiwebviews-scalespagetofit
+    NSString *jScript = @"var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width'); document.getElementsByTagName('head')[0].appendChild(meta);";
+    
+    WKUserScript *wkUScript = [[WKUserScript alloc] initWithSource:jScript injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
+    WKUserContentController *wkUController = [[WKUserContentController alloc] init];
+    [wkUController addUserScript:wkUScript];
+    
+    WKWebViewConfiguration *wkWebConfig = [[WKWebViewConfiguration alloc] init];
+    wkWebConfig.userContentController = wkUController;
+    
+    WKWebView* wkWebV = [[WKWebView alloc] initWithFrame:self.view.frame configuration:wkWebConfig];
+
+    [self setWebView:wkWebV];
+    [[self webView] setNavigationDelegate:self];
+
+}
 @end
