@@ -15,6 +15,8 @@
  *
  */
 
+/* XCode 11.2 Beta 2 (11B44) */
+
 #import <TwitterCore/TWTRSession.h>
 #import <TwitterCore/TWTRSessionStore.h>
 #import <UIKit/UIKit.h>
