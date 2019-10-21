@@ -357,6 +357,8 @@
 		3DFAD0301B33991E0076E10A /* TWTRListTimelineDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 3DFAD0031B333D980076E10A /* TWTRListTimelineDataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3DFAD0391B339EAB0076E10A /* TWTRListTimelineDataSourceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFAD0381B339EAB0076E10A /* TWTRListTimelineDataSourceTests.m */; };
 		3DFAD03E1B33AB6E0076E10A /* TwitterSyndicationTeamListTweets.json in Resources */ = {isa = PBXBuildFile; fileRef = 3DFAD03D1B33AB6E0076E10A /* TwitterSyndicationTeamListTweets.json */; };
+		4657B3742351B8B200E1610C /* MoPub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 370864591ECE605D00E4F411 /* MoPub.framework */; };
+		4657B3772351B90000E1610C /* MoPub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 370864591ECE605D00E4F411 /* MoPub.framework */; };
 		6C45B2DA1B013FAA00CD0FF2 /* TWTRTwitterAPIServiceConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 6C45B2D81B013FAA00CD0FF2 /* TWTRTwitterAPIServiceConfig.h */; };
 		6C45B2DB1B013FAA00CD0FF2 /* TWTRTwitterAPIServiceConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 6C45B2D81B013FAA00CD0FF2 /* TWTRTwitterAPIServiceConfig.h */; };
 		6C45B2DC1B013FAA00CD0FF2 /* TWTRTwitterAPIServiceConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C45B2D91B013FAA00CD0FF2 /* TWTRTwitterAPIServiceConfig.m */; };
@@ -726,6 +728,16 @@
 				205373651F3295D100FC3CA3 /* MoPub.framework in CopyFiles */,
 				3789B0EB1E96E5D40026BBBC /* OCMock.framework in CopyFiles */,
 			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4657B3762351B8B200E1610C /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		A97654E318E0B29B00E25169 /* Copy Files */ = {
@@ -1376,6 +1388,7 @@
 				9236048719F18F5F00532281 /* CoreData.framework in Frameworks */,
 				370F2F1C19B6989D00A51872 /* CoreGraphics.framework in Frameworks */,
 				18FE0754191AAC3500485617 /* UIKit.framework in Frameworks */,
+				4657B3772351B90000E1610C /* MoPub.framework in Frameworks */,
 				A97654E918E0B29B00E25169 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1396,6 +1409,7 @@
 				DB22426B1C3F22A7008A6DC7 /* Accounts.framework in Frameworks */,
 				DB22426A1C3F2292008A6DC7 /* AVFoundation.framework in Frameworks */,
 				DB2242691C3F228B008A6DC7 /* CoreMedia.framework in Frameworks */,
+				4657B3742351B8B200E1610C /* MoPub.framework in Frameworks */,
 				DB2242681C3F2194008A6DC7 /* Foundation.framework in Frameworks */,
 				DB2242671C3F218F008A6DC7 /* UIKit.framework in Frameworks */,
 				DB2242661C3F2188008A6DC7 /* CoreGraphics.framework in Frameworks */,
@@ -2947,6 +2961,7 @@
 				BFE8395C1ADF23590035CBA1 /* Frameworks */,
 				BFE8395D1ADF23590035CBA1 /* Headers */,
 				BFE8395E1ADF23590035CBA1 /* Resources */,
+				4657B3762351B8B200E1610C /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2964,7 +2979,7 @@
 		A97654DD18E0B29B00E25169 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 1110;
 				ORGANIZATIONNAME = Twitter;
 				TargetAttributes = {
 					A966541318EB687000B61CEE = {
@@ -2979,13 +2994,13 @@
 			};
 			buildConfigurationList = A97654E018E0B29B00E25169 /* Build configuration list for PBXProject "TwitterKit" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				ko,
 				ja,
+				Base,
 			);
 			mainGroup = A97654DC18E0B29B00E25169;
 			productRefGroup = A97654E618E0B29B00E25169 /* Products */;
@@ -3448,8 +3463,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DB2241791C3DA603008A6DC7 /* TwitterKitTests.xcconfig */;
 			buildSettings = {
+				BITCODE_GENERATION_MODE = marker;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3468,6 +3484,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DB2241791C3DA603008A6DC7 /* TwitterKitTests.xcconfig */;
 			buildSettings = {
+				BITCODE_GENERATION_MODE = bitcode;
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3487,14 +3504,22 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DB2241771C3DA603008A6DC7 /* Project.xcconfig */;
 			buildSettings = {
+				BITCODE_GENERATION_MODE = marker;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_MODULES_AUTOLINK = NO;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -3517,14 +3542,22 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DB2241771C3DA603008A6DC7 /* Project.xcconfig */;
 			buildSettings = {
+				BITCODE_GENERATION_MODE = bitcode;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_MODULES_AUTOLINK = NO;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -3546,7 +3579,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DB2241761C3DA603008A6DC7 /* libTwitterKit.xcconfig */;
 			buildSettings = {
-				BITCODE_GENERATION_MODE = bitcode;
+				BITCODE_GENERATION_MODE = marker;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../vendor",
 					"$(PROJECT_DIR)",
@@ -3572,7 +3605,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 37510DA81D3EC1080048227C /* TwitterKit.xcconfig */;
 			buildSettings = {
-				BITCODE_GENERATION_MODE = bitcode;
+				BITCODE_GENERATION_MODE = marker;
 				CODE_SIGN_IDENTITY = "";
 				ENABLE_BITCODE = YES;
 				MARKETING_VERSION = 5.0.3;
